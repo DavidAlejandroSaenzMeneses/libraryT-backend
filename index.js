@@ -1,6 +1,6 @@
-import express from 'express';
-import myRouter from './src/routes/index.js';
-import sequelize from './src/dataBase/connection.js';
+const express = require('express');
+const myRouter = require('./src/routes/index.js');
+const sequelize = require('./src/dataBase/connection.js');
 
 const app = express();
 const port = 3000;

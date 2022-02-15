@@ -1,0 +1,35 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "5b05b7717",
+    "database": "library-t",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "define": {
+      "timestamps": false
+    }
+  },
+  "test": {
+    "username": "postgres",
+    "password": "5b05b7717",
+    "database": "library-t",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "define": {
+      "timestamps": false
+    }
+  },
+  "production": {
+    "username": "postgres",
+    "password": "5b05b7717",
+    "database": "library-t",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "define": {
+      "timestamps": false
+    }
+  },
+  "define": {
+    "timestamps": false
+  }
+}

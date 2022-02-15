@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Backend para libreria prueba Talenta",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -26,6 +25,7 @@
     "sequelize": "^6.16.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "sequelize-cli": "^6.4.1"
   }
 }
