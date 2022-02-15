@@ -25,14 +25,35 @@ module.exports = (sequelize, DataTypes) => {
         },
         id_author: {
             type: DataTypes.INTEGER,
+            references: {
+                model: {
+                    tableName: 'authors',
+                    schema: 'public'
+                },
+                key: 'id_author'
+            },
             allowNull: false
         },
         id_publishing_house: {
             type: DataTypes.INTEGER,
+            references: {
+                model: {
+                    tableName: 'publishing_houses',
+                    schema: 'public'
+                },
+                key: 'id_publishing_house'
+            },
             allowNull: false
         },
         id_literary_genre: {
             type: DataTypes.INTEGER,
+            references: {
+                model: {
+                    tableName: 'genres',
+                    schema: 'public'
+                },
+                key: 'id_genre'
+            },
             allowNull: false
         },
         stock: {

@@ -21,10 +21,24 @@ module.exports = (sequelize, DataTypes) => {
         },
         id_book: {
             type: DataTypes.INTEGER,
+            references: {
+                model: {
+                    tableName: 'books',
+                    schema: 'public'
+                },
+                key: 'id_book'
+            },
             allowNull: false
         },
         id_user: {
             type: DataTypes.INTEGER,
+            references: {
+                model: {
+                    tableName: 'users',
+                    schema: 'public'
+                },
+                key: 'id_user'
+            },
             allowNull: false
         },
         date_record: {
