@@ -1,8 +1,11 @@
-const express = require('express');
+const router = require('express').Router();
 
-const myRouter = express.Router();
+//controllers
+const User = require('../controllers/user');
 
-myRouter.get('/test', (req, res) => {
+//usuario
+router.get('/users/:idUser?',User.read);
+router.get('/test', (req, res) => {
     res.status(200).send({
         status: 'success',
         message: 'Todo en orden'
@@ -10,4 +13,4 @@ myRouter.get('/test', (req, res) => {
 
 });
 
-module.exports = myRouter;
+module.exports = router;
