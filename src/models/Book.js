@@ -2,62 +2,66 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class User extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
         static associate(models) {
-            // define association here
         }
     }
     User.init({
-        id_loan: {
+        id_book: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
             allowNull: false,
-            unique: 'id_loan_unique'
+            unique: 'id_book_unique'
         },
-        id_book: {
+        title: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        id_author: {
             type: DataTypes.INTEGER,
             references: {
                 model: {
-                    tableName: 'books',
+                    tableName: 'authors',
                     schema: 'public'
                 },
-                key: 'id_book'
+                key: 'id_author'
             },
             allowNull: false
         },
-        id_user: {
+        id_publishing_house: {
             type: DataTypes.INTEGER,
             references: {
                 model: {
-                    tableName: 'users',
+                    tableName: 'publishing_houses',
                     schema: 'public'
                 },
-                key: 'id_user'
+                key: 'id_publishing_house'
             },
             allowNull: false
         },
-        date_record: {
-            type: 'TIMESTAMP',
-            defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+        id_literary_genre: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: {
+                    tableName: 'genres',
+                    schema: 'public'
+                },
+                key: 'id_genre'
+            },
             allowNull: false
         },
-        date_return: {
-            type: 'TIMESTAMP',
-            defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
-        },
-        return_book: {
-            type: DataTypes.BOOLEAN,
+        stock: {
+            type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: false
+            defaultValue: 1
+        },
+        image: {
+            type: Sequelize.DataTypes.STRING,
+            allowNull: true
         }
     }, {
         sequelize,
-        modelName: 'loan',
+        modelName: 'book',
         timestamps: false
     });
     return User;

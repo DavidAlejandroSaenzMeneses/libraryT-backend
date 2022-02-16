@@ -92,15 +92,19 @@ module.exports = {
             type: Sequelize.DataTypes.INTEGER,
             allowNull: false,
             defaultValue: 1
+          },
+          image:{
+            type: Sequelize.DataTypes.STRING,
+            allowNull: true
           }
         }),
-        queryInterface.createTable('users', {
-          id_user: {
+        queryInterface.createTable('library_users', {
+          id_library_user: {
             type: Sequelize.DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
             allowNull: false,
-            unique: 'id_user_unique'
+            unique: 'id_library_user_unique'
           },
           identification: {
             type: Sequelize.DataTypes.STRING,
@@ -138,10 +142,10 @@ module.exports = {
             type: Sequelize.DataTypes.INTEGER,
             references: {
               model: {
-                tableName: 'users',
+                tableName: 'library_users',
                 schema: 'public'
               },
-              key: 'id_user'
+              key: 'id_library_user'
             },
             allowNull: false
           },
