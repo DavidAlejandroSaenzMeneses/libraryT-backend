@@ -1,25 +1,25 @@
 'use strict';
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../database/connection');
-class Genre extends Model {
+class PublishingHouse extends Model {
     static associate(models) {
     }
 }
-Genre.init({
-    id_genre: {
+PublishingHouse.init({
+    id_publishing_house: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
-        unique: 'id_genre_unique'
+        unique: 'id_publishing_house_unique'
     },
-    literary_genres_description: {
+    publishing_house_name: {
         type: DataTypes.STRING,
         allowNull: false
     }
 }, {
     sequelize,
-    modelName: 'genre',
+    modelName: 'publishing_house',
     timestamps: false
 });
-module.exports = Genre;
+module.exports = PublishingHouse;

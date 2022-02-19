@@ -66,6 +66,10 @@ module.exports = {
             },
             allowNull: false,
           },
+          prologue: {
+            type: Sequelize.DataTypes.TEXT,
+            allowNull: false
+          },
           id_publishing_house: {
             type: Sequelize.DataTypes.INTEGER,
             references: {
@@ -93,7 +97,7 @@ module.exports = {
             allowNull: false,
             defaultValue: 1
           },
-          image:{
+          image: {
             type: Sequelize.DataTypes.STRING,
             allowNull: true
           }

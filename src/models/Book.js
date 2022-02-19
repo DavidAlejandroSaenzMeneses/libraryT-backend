@@ -1,11 +1,15 @@
 'use strict';
-const { Model } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-    class User extends Model {
-        static associate(models) {
-        }
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../database/connection');
+const Author = require('./Author');
+const Genre = require('./Genre')
+const PublishingHouse = require('./PublishingHouse');
+class Book extends Model {
+    static associate(models) {
     }
-    User.init({
+}
+Book.init(
+    {
         id_book: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -28,6 +32,10 @@ module.exports = (sequelize, DataTypes) => {
             },
             allowNull: false
         },
+        prologue: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         id_publishing_house: {
             type: DataTypes.INTEGER,
             references: {
@@ -39,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             allowNull: false
         },
-        id_literary_genre: {
+        id_genre: {
             type: DataTypes.INTEGER,
             references: {
                 model: {
@@ -56,13 +64,19 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: 1
         },
         image: {
-            type: Sequelize.DataTypes.STRING,
+            type: DataTypes.STRING,
             allowNull: true
         }
     }, {
-        sequelize,
-        modelName: 'book',
-        timestamps: false
-    });
-    return User;
-};
+    sequelize,
+    modelName: 'book',
+    timestamps: false
+}
+);
+Book.associate = function (models) {
+    //Book.belongsTo(Author,{primaryKey:'id_author'});
+    Book.belongsTo(models.Author);
+}
+//Book.hasOne(Genre,{foreignKey:'id_genre'});
+//Book.hasOne(PublishingHouse,{foreignKey:'id_publishing_house'});
+module.exports = Book;
