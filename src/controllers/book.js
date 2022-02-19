@@ -1,5 +1,10 @@
-const Book = require('../models/Book');
+const fileSystem = require('fs');
+const path = require('path');
 const validator = require('validator');
+const Book = require('../models/Book');
+const Author = require('../models/Author');
+const Genre = require('../models/Genre');
+const PublishingHouse = require('../models/PublishingHouse');
 
 module.exports = {
     read: async (req, res) => {
@@ -8,8 +13,10 @@ module.exports = {
         //si obtiene un id el sistema realiza una consulta individual
         if (validateIdBook) {
             try {
-                const bookData = await Book.findOne({ where: { id_book: idBook } });
-                if (!bookData) {
+                const result = await Book.findOne({
+                    where: { id_book: idBook }
+                });
+                if (!result) {
                     return res.status(404).send({
                         status: 'error',
                         message: 'resource not found'
@@ -17,7 +24,7 @@ module.exports = {
                 }
                 return res.status(200).send({
                     status: 'success',
-                    bookData
+                    result
                 });
             } catch (error) {
                 return res.status(404).send({
@@ -27,8 +34,9 @@ module.exports = {
             }
         }
         try {
-            const bookData = await Book.findAll();
-            if (!bookData) {
+            const result = await Book.findAll({
+            });
+            if (!result) {
                 return res.status(404).send({
                     status: 'error',
                     message: 'resource not found'
@@ -36,7 +44,7 @@ module.exports = {
             }
             return res.status(200).send({
                 status: 'success',
-                bookData
+                result
             });
 
         } catch (error) {
@@ -47,5 +55,19 @@ module.exports = {
             })
         }
 
+    },
+    getImage: (req, res) => {
+        const file = req.params.imageBook;
+        const pathFile = './src/image/' + file;
+        fileSystem.exists(pathFile, (exist) => {
+            if (exist) {
+                return res.sendFile(path.resolve(pathFile));
+            } else {
+                return res.status(500).send({
+                    status: 'success',
+                    message: 'la imagen no existe'
+                });
+            }
+        });
     }
 }

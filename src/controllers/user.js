@@ -8,7 +8,7 @@ module.exports = {
             const validateIdentification = !validator.isEmpty(params.identification);
             const validateNombre = !validator.isEmpty(params.fullName);
             const validatePhoneNumber = !validator.isEmpty(params.phoneNumber);
-            if(!validateIdentification || !validateNombre || !validatePhoneNumber){
+            if (!validateIdentification || !validateNombre || !validatePhoneNumber) {
                 return res.status(400).send({
                     status: 'error',
                     message: 'incomplete data'
@@ -48,13 +48,13 @@ module.exports = {
         }
     },
     read: async (req, res) => {
-        const idUser = (req.params.idUser !== undefined) ? req.params.idUser : '';
-        const validateIdUSer = !validator.isEmpty(idUser);
+        const identification = (req.params.identification !== undefined) ? req.params.identification : '';
+        const validateIdentification = !validator.isEmpty(identification);
         //si obtiene un id el sistema realiza una consulta individual
-        if (validateIdUSer) {
+        if (validateIdentification) {
             try {
-                const userData = await User.findOne({ where: { id_library_user: idUser } });
-                if (!userData) {
+                const result = await User.findOne({ where: { identification: identification } });
+                if (!result) {
                     return res.status(404).send({
                         status: 'error',
                         message: 'resource not found'
@@ -62,9 +62,10 @@ module.exports = {
                 }
                 return res.status(200).send({
                     status: 'success',
-                    userData
+                    result
                 });
             } catch (error) {
+                throw new Error(error);
                 return res.status(404).send({
                     status: 'error2',
                     message: error
@@ -72,8 +73,8 @@ module.exports = {
             }
         }
         try {
-            const userData = await User.findAll();
-            if (!userData) {
+            const result = await User.findAll();
+            if (!result) {
                 return res.status(404).send({
                     status: 'error',
                     message: 'resource not found'
@@ -81,7 +82,7 @@ module.exports = {
             }
             return res.status(200).send({
                 status: 'success',
-                userData
+                result
             });
 
         } catch (error) {

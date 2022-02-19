@@ -1,4 +1,4 @@
-const Publishing_house = require('../models/Publishing_house');
+const PublishingHouse = require('../models/PublishingHouse');
 const validator = require('validator');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
         //si obtiene un id el sistema realiza una consulta individual
         if (validateIdPublishingHouse) {
             try {
-                const PublishingHouseData = await Publishing_house.findOne({ where: { id_publishing_house: idPublishingHouse } });
+                const PublishingHouseData = await PublishingHouse.findOne({ where: { id_publishingHouse: idPublishingHouse } });
                 if (!PublishingHouseData) {
                     return res.status(404).send({
                         status: 'error',
@@ -27,7 +27,7 @@ module.exports = {
             }
         }
         try {
-            const PublishingHouseData = await Publishing_house.findAll();
+            const PublishingHouseData = await PublishingHouse.findAll();
             if (!PublishingHouseData) {
                 return res.status(404).send({
                     status: 'error',
