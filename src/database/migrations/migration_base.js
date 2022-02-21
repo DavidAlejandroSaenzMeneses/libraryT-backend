@@ -4,45 +4,6 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     return queryInterface.sequelize.transaction(t => {
       return [
-        queryInterface.createTable('authors', {
-          id_author: {
-            type: Sequelize.DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-            allowNull: false,
-            unique: 'id_author_unique'
-          },
-          author_name: {
-            type: Sequelize.DataTypes.STRING,
-            allowNull: false
-          }
-        }),
-        queryInterface.createTable('publishing_houses', {
-          id_publishing_house: {
-            type: Sequelize.DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-            allowNull: false,
-            unique: 'id_publishing_house_unique'
-          },
-          publishing_house_name: {
-            type: Sequelize.DataTypes.STRING,
-            allowNull: false
-          }
-        }),
-        queryInterface.createTable('genres', {
-          id_genre: {
-            type: Sequelize.DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-            allowNull: false,
-            unique: 'id_genre_unique'
-          },
-          literary_genres_description: {
-            type: Sequelize.DataTypes.STRING,
-            allowNull: false
-          }
-        }),
         queryInterface.createTable('books', {
           id_book: {
             type: Sequelize.DataTypes.INTEGER,
@@ -55,41 +16,16 @@ module.exports = {
             type: Sequelize.DataTypes.STRING,
             allowNull: false
           },
-          id_author: {
-            type: Sequelize.DataTypes.INTEGER,
-            references: {
-              model: {
-                tableName: 'authors',
-                schema: 'public'
-              },
-              key: 'id_author'
-            },
-            allowNull: false,
+          author_name: {
+            type: Sequelize.DataTypes.STRING,
+            allowNull: false
           },
           prologue: {
             type: Sequelize.DataTypes.TEXT,
             allowNull: false
           },
-          id_publishing_house: {
-            type: Sequelize.DataTypes.INTEGER,
-            references: {
-              model: {
-                tableName: 'publishing_houses',
-                schema: 'public'
-              },
-              key: 'id_publishing_house'
-            },
-            allowNull: false
-          },
-          id_genre: {
-            type: Sequelize.DataTypes.INTEGER,
-            references: {
-              model: {
-                tableName: 'genres',
-                schema: 'public'
-              },
-              key: 'id_genre'
-            },
+          genre: {
+            type: Sequelize.DataTypes.STRING,
             allowNull: false
           },
           stock: {
@@ -160,7 +96,7 @@ module.exports = {
           },
           date_return: {
             type: 'TIMESTAMP',
-            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+            allowNull: true
           },
           return_book: {
             type: Sequelize.DataTypes.BOOLEAN,

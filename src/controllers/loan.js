@@ -3,6 +3,28 @@ const validator = require('validator');
 
 module.exports = {
     create: async (req, res) => {
+        const params = req.body;
+        if (!(params.id_book>0) && !(params.id_library_user>0)) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'incomplete data'
+            });
+        }
+        try {
+            const result = await Loan.create({
+                id_book: params.id_book,
+                id_user: params.id_library_user
+            });
+            return res.status(201).send({
+                status: 'success',
+                result
+            });
+        } catch (error) {
+            return res.status(500).send({
+                status: 'error',
+                error
+            });
+        }
     },
     read: async (req, res) => {
         const IdLoan = (req.params.IdLoan !== undefined) ? req.params.IdLoan : '';
@@ -50,9 +72,6 @@ module.exports = {
 
     },
     update: async (req, res) => {
-
-    },
-    delete: async (req, res) => {
 
     }
 }

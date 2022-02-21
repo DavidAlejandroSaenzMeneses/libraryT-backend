@@ -42,7 +42,7 @@ Loan.init({
     },
     date_return: {
         type: 'TIMESTAMP',
-        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+        allowNull: true
     },
     return_book: {
         type: DataTypes.BOOLEAN,

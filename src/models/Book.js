@@ -1,9 +1,6 @@
 'use strict';
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../database/connection');
-const Author = require('./Author');
-const Genre = require('./Genre')
-const PublishingHouse = require('./PublishingHouse');
 class Book extends Model {
     static associate(models) {
     }
@@ -21,41 +18,16 @@ Book.init(
             type: DataTypes.STRING,
             allowNull: false
         },
-        id_author: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: {
-                    tableName: 'authors',
-                    schema: 'public'
-                },
-                key: 'id_author'
-            },
+        author_name: {
+            type: DataTypes.STRING,
             allowNull: false
         },
         prologue: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        id_publishing_house: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: {
-                    tableName: 'publishing_houses',
-                    schema: 'public'
-                },
-                key: 'id_publishing_house'
-            },
-            allowNull: false
-        },
-        id_genre: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: {
-                    tableName: 'genres',
-                    schema: 'public'
-                },
-                key: 'id_genre'
-            },
+        genre: {
+            type: DataTypes.STRING,
             allowNull: false
         },
         stock: {
@@ -77,6 +49,4 @@ Book.associate = function (models) {
     //Book.belongsTo(Author,{primaryKey:'id_author'});
     Book.belongsTo(models.Author);
 }
-//Book.hasOne(Genre,{foreignKey:'id_genre'});
-//Book.hasOne(PublishingHouse,{foreignKey:'id_publishing_house'});
 module.exports = Book;

@@ -6,8 +6,8 @@ module.exports = {
         const params = req.body;
         try {
             const validateIdentification = !validator.isEmpty(params.identification);
-            const validateNombre = !validator.isEmpty(params.fullName);
-            const validatePhoneNumber = !validator.isEmpty(params.phoneNumber);
+            const validateNombre = !validator.isEmpty(params.full_name);
+            const validatePhoneNumber = !validator.isEmpty(params.phone_number);
             if (!validateIdentification || !validateNombre || !validatePhoneNumber) {
                 return res.status(400).send({
                     status: 'error',
@@ -31,14 +31,14 @@ module.exports = {
             });
         }
         try {
-            const newUser = await User.create({
+            const result = await User.create({
                 identification: params.identification,
-                full_name: params.fullName,
-                phone_number: params.phoneNumber
+                full_name: params.full_name,
+                phone_number: params.phone_number
             });
             return res.status(201).send({
                 status: 'success',
-                newUser
+                result
             });
         } catch (error) {
             return res.status(500).send({
@@ -48,14 +48,22 @@ module.exports = {
         }
     },
     read: async (req, res) => {
-        const identification = (req.params.identification !== undefined) ? req.params.identification : '';
+        const idUser = (req.params.idUser !== undefined) ? req.params.idUser : '';
+        const identification = (req.query.identification !== undefined) ? req.query.identification : '';
+        const validateIdUser = !validator.isEmpty(idUser);
         const validateIdentification = !validator.isEmpty(identification);
         //si obtiene un id el sistema realiza una consulta individual
-        if (validateIdentification) {
+        if (validateIdUser || validateIdentification) {
             try {
-                const result = await User.findOne({ where: { identification: identification } });
+                let filtro = {};
+                if (validateIdUser) {
+                    filtro = { where: { id_library_user: idUser } };
+                } else {
+                    filtro = { where: { identification: identification } };
+                }
+                const result = await User.findOne(filtro);
                 if (!result) {
-                    return res.status(404).send({
+                    return res.status(200).send({
                         status: 'error',
                         message: 'resource not found'
                     });
@@ -92,5 +100,34 @@ module.exports = {
             })
         }
 
+    },
+    update: async (req, res)=>{
+        const params = req.body;
+        const validateIdentification = !validator.isEmpty(params.identification);
+        const validateNombre = !validator.isEmpty(params.full_name);
+        const validatePhoneNumber = !validator.isEmpty(params.phone_number);
+        if (!validateIdentification || !validateNombre || !validatePhoneNumber) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'incomplete data'
+            });
+        }
+        try {           
+            const result = await User.update({
+                identification: params.identification,
+                full_name: params.full_name,
+                phone_number: params.phone_number
+            },{where:{id_library_user:params.id_library_user}});
+            return res.status(201).send({
+                status: 'success',
+                result
+            });
+        } catch (error) {
+            throw new Error(error);
+            return res.status(500).send({
+                status: 'error',
+                error
+            });
+        } 
     }
 }

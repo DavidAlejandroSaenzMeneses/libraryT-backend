@@ -2,9 +2,6 @@ const fileSystem = require('fs');
 const path = require('path');
 const validator = require('validator');
 const Book = require('../models/Book');
-const Author = require('../models/Author');
-const Genre = require('../models/Genre');
-const PublishingHouse = require('../models/PublishingHouse');
 
 module.exports = {
     read: async (req, res) => {
