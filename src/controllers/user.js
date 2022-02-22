@@ -123,7 +123,6 @@ module.exports = {
                 result
             });
         } catch (error) {
-            throw new Error(error);
             return res.status(500).send({
                 status: 'error',
                 error

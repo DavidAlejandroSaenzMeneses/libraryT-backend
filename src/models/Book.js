@@ -46,7 +46,7 @@ Book.init(
 }
 );
 Book.associate = function (models) {
-    //Book.belongsTo(Author,{primaryKey:'id_author'});
-    Book.belongsTo(models.Author);
+    Book.Loan = Book.hasMany(models.Loan, { foreignKey: 'id_book', targetKey: 'id_book', as: 'books' });
 }
+
 module.exports = Book;

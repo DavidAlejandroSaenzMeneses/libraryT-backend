@@ -28,4 +28,7 @@ User.init({
   modelName: 'library_users',
   timestamps: false
 });
+User.associate = function (models) {
+  User.Loan = User.hasMany(models.Loan, { foreignKey: 'id_book', targetKey: 'id_book', as: 'loans' });
+}
 module.exports = User;

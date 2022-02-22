@@ -1,6 +1,8 @@
 'use strict';
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../database/connection');
+const Book = require('./Book');
+const User = require('./User');
 class Loan extends Model {
     static associate(models) {
     }
@@ -54,4 +56,8 @@ Loan.init({
     modelName: 'loan',
     timestamps: false
 });
+
+Loan.Book = Loan.belongsTo(Book,{foreignKey:'id_book', targetKey:'id_book', as:'loan_book'});
+Loan.User = Loan.belongsTo(User,{foreignKey:'id_user', targetKey:'id_library_user', as:'loan_library_user'});
+
 module.exports = Loan;
