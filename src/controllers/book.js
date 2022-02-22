@@ -4,6 +4,36 @@ const validator = require('validator');
 const Book = require('../models/Book');
 const Loan = require('../models/Loan');
 module.exports = {
+    create: async(req, res)=>{
+        const params = req.body;
+        const validateTitle = !validator.isEmpty(params.title);
+        const validateAuthor = !validator.isEmpty(params.author_name);
+        const validatePrologue = !validator.isEmpty(params.prologue);
+        const validateGenre = !validator.isEmpty(params.genre);
+        if (!validateTitle || !validateAuthor || !validatePrologue || !validateGenre) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'incomplete data'
+            });
+        }
+        try {
+            const result = await Book.create({
+                title: params.title,
+                author_name: params.author_name,
+                prologue: params.prologue,
+                genre: params.genre
+            });
+            return res.status(200).send({
+                status: 'success',
+                result
+            });
+        } catch (error) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'algo salio mal'
+            });
+        }
+    },
     read: async (req, res) => {
         const idBook = (req.params.idBook !== undefined) ? req.params.idBook : '';
         const validateIdBook = !validator.isEmpty(idBook);
@@ -102,6 +132,38 @@ module.exports = {
             });
         }
     },
+    delete: async (req, res) => {
+        const idBook = req.params.idBook;
+        if (!(idBook > 0)) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'incomplete data'
+            });
+        }
+        const bookLoans= await Loan.findAll({where:{id_book:idBook}});
+        if(bookLoans.length > 0) {
+            return res.status(403).send({
+                status: 'Denied',
+                message: 'No se puede eliminar el libro debido a que tiene registro de prestamos'
+            })
+        }
+        try {
+            const result = await Book.destroy({ where: { id_book: idBook } });
+            if (result>0) {
+                return res.status(200).send({
+                    status: 'success',
+                    result
+                });
+            }
+        } catch (error) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'algo salio mal',
+                error
+            });
+        }
+
+    },
     uploadImage: async (req, res) => {
         const idBook = req.params.idBook;
         const file_Name = 'Imagen no subida';
@@ -132,7 +194,7 @@ module.exports = {
             } catch (error) {
                 return res.status(500).send({
                     status: 'success',
-                    message: 'error al guardar la imagen del articulo'
+                    message: 'error al relacionar la imagen con el libro'
                 });
             }
         }

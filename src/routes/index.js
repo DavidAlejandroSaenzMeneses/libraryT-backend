@@ -1,18 +1,20 @@
 const router = require('express').Router();
-
+const multipart = require('connect-multiparty');
 //controllers
 const User = require('../controllers/user');
 const Book = require('../controllers/book');
 const Loan = require('../controllers/loan');
-
+const multipartMiddleware = multipart({uploadDir:'./src/image'});
 //Resources-endPoints:
 
 //books
+router.post('/books', Book.create);
 router.get('/books/:idBook?', Book.read);
 router.put('/books/:idBook', Book.update);
+router.delete('/books/:idBook', Book.delete);
 
 router.get('/books/get-image/:imageBook', Book.getImage);
-router.get('/books/upload-image/:imageBook', Book.getImage);
+router.post('/books/upload-image/:idBook', multipartMiddleware, Book.uploadImage);
 //loans
 router.post('/loans', Loan.create);
 router.get('/loans', Loan.read);
