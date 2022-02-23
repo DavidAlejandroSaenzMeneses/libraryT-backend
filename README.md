@@ -15,10 +15,6 @@ _Debemos tener instaladas las siguientes aplicacion o marcos de trabajo_
 * Node.js
 * PostgresSql
 
-```
-Da un ejemplo
-```
-
 ### Instalación 🔧
 
 _Pasos Para Instalacion y Configuracion Inicial_
