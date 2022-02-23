@@ -3,9 +3,7 @@ const myRouter = require('./src/routes/index.js');
 const sequelize = require('./src/dataBase/connection.js');
 const cors = require('cors');
 const app = express();
-require('dotenv').config();
-const environment = process.env;
-const port = environment.SERVER_PORT;
+const port = 3900;
 
 //CORS
 app.use(cors());
