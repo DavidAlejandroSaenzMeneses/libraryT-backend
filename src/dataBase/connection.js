@@ -1,12 +1,6 @@
 const { Sequelize } = require('sequelize');
-require('dotenv').config();
-const environment = process.env;
+var env = process.env.NODE_ENV || 'development';
+var config = require(__dirname + '/../../config/config.json')[env];
 
-const connection = (new Sequelize(environment.DB_NAME, environment.DB_USER, environment.DB_PASS, {
-    host: environment.DB_HOST,
-    dialect: 'postgres',
-    define: {
-        timestamps: false
-    }
-}));
+const connection = (new Sequelize(config.database, config.username, config.password, config));
 module.exports = connection;

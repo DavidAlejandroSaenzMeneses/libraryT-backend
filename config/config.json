@@ -4,6 +4,7 @@
     "password": "5b05b7717",
     "database": "library-t",
     "host": "127.0.0.1",
+    "logging": false,
     "dialect": "postgres",
     "define": {
       "timestamps": false
@@ -14,6 +15,7 @@
     "password": "5b05b7717",
     "database": "library-t",
     "host": "127.0.0.1",
+    "logging": false,
     "dialect": "postgres",
     "define": {
       "timestamps": false
@@ -24,6 +26,7 @@
     "password": "5b05b7717",
     "database": "library-t",
     "host": "127.0.0.1",
+    "logging": false,
     "dialect": "postgres",
     "define": {
       "timestamps": false
