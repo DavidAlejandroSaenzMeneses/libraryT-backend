@@ -23,6 +23,7 @@ router.put('/loans/:idBook/close',Loan.update);
 router.post('/users', User.create);
 router.get('/users/:idUser?', User.read);
 router.put('/users/:idUser?', User.update);
+router.delete('/users/:idUser', User.delete);
 //router.get('/users/:identification?', User.read);
 router.post('/users/:datoPrueba', User.create);
 

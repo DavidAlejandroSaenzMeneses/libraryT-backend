@@ -64,7 +64,7 @@ module.exports = {
                     association: User.Book,
                     required: true,
                     as:'loan_book'
-                }]
+                }],order: [['id_loan', 'DESC']]
             });
             if (!result) {
                 return res.status(404).send({

@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const validator = require('validator');
+const Loan = require('../models/Loan');
 
 module.exports = {
     create: async (req, res) => {
@@ -81,7 +82,7 @@ module.exports = {
             }
         }
         try {
-            const result = await User.findAll();
+            const result = await User.findAll({order: [['id_library_user', 'DESC']]});
             if (!result) {
                 return res.status(404).send({
                     status: 'error',
@@ -106,7 +107,8 @@ module.exports = {
         const validateIdentification = !validator.isEmpty(params.identification);
         const validateNombre = !validator.isEmpty(params.full_name);
         const validatePhoneNumber = !validator.isEmpty(params.phone_number);
-        if (!validateIdentification || !validateNombre || !validatePhoneNumber) {
+        const userForUpdate = req.params.idUser;
+        if (!(userForUpdate>0) || !validateIdentification || !validateNombre || !validatePhoneNumber) {
             return res.status(400).send({
                 status: 'error',
                 message: 'incomplete data'
@@ -117,7 +119,7 @@ module.exports = {
                 identification: params.identification,
                 full_name: params.full_name,
                 phone_number: params.phone_number
-            },{where:{id_library_user:params.id_library_user}});
+            },{where:{id_library_user:userForUpdate}});
             return res.status(201).send({
                 status: 'success',
                 result
@@ -128,5 +130,35 @@ module.exports = {
                 error
             });
         } 
+    },
+    delete: async(req, res)=>{
+        const idUser = req.params.idUser;
+        if (!(idUser > 0)) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'incomplete data'
+            });
+        }
+        const userLoans= await Loan.findAll({where:{id_user:idUser}});
+        if(userLoans.length > 0) {
+            return res.status(403).send({
+                status: 'Denied',
+                message: 'No se puede eliminar el usuario debido a que tiene registro de prestamos'
+            })
+        }
+        try {
+            const result = await User.destroy({ where: { id_library_user: idUser } });
+            if (result>0) {
+                return res.status(200).send({
+                    status: 'success',
+                    result
+                });
+            }
+        } catch (error) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'algo salio mal'
+            });
+        }
     }
 }
